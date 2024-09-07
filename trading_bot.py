@@ -46,6 +46,16 @@ class TradingBot:
     def job(self):
 
         print("--------------------")
+
+        is_open_positions = self.data_fetcher.get_open_positions(self.symbol)
+        if is_open_positions:
+            print("There is already an open position. A new order will not be placed.")
+            return
+
+        is_open_orders = self.data_fetcher.get_open_orders(self.symbol)
+        if is_open_orders:
+            print("There is an open limit order. A new order will not be placed.")
+            return
         
         get_historical_data = self.data_fetcher.get_historical_data(self.symbol, self.interval, self.limit)
         if get_historical_data is None:
@@ -69,17 +79,7 @@ class TradingBot:
                 if time_since_last_close < 120:
                     print("The last closed position was less than 2 minutes ago. A new order will not be placed.")
                     return
-
-
-            is_open_positions = self.data_fetcher.get_open_positions(self.symbol)
-            if is_open_positions:
-                print("There is already an open position. A new order will not be placed.")
-                return
-
-            is_open_orders = self.data_fetcher.get_open_orders(self.symbol)
-            if is_open_orders:
-                print("There is an open limit order. A new order will not be placed.")
-                return
+                
             
             stop_loss, take_profit = self.risk_management.calculate_dynamic_risk_management(df, current_price, trend)
 
