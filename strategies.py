@@ -6,8 +6,8 @@ from indicators import Indicators
 class Strategies:
     def __init__(self):
         self.indicators = Indicators()
-        self.high_rsi = 85
-        self.low_rsi = 15
+        self.high_rsi = 80
+        self.low_rsi = 20
 
     def prepare_dataframe(self, historical_data):
         df = pd.DataFrame(historical_data)
