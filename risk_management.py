@@ -25,11 +25,14 @@ class RiskManagement:
         if trend == 'long':
             stop_loss = float(current_price) - stop_loss_distance
             take_profit = float(current_price) + (stop_loss_distance * self.risk_ratio)
+            # Calculate trailing stop similar to take profit but adjusted for trailing stop rules
+            trailing_stop = atr * self.risk_ratio  # You can adjust this calculation as needed
         elif trend == 'short':
             stop_loss = float(current_price) + stop_loss_distance
             take_profit = float(current_price) - (stop_loss_distance * self.risk_ratio)
+            trailing_stop = atr * self.risk_ratio  # Adjust for short positions as well
         else:
             raise ValueError("Trend must be either 'long' or 'short'")
 
-        return stop_loss, take_profit
+        return stop_loss, take_profit, trailing_stop
 

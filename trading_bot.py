@@ -81,11 +81,11 @@ class TradingBot:
                     return
                 
             
-            stop_loss, take_profit = self.risk_management.calculate_dynamic_risk_management(df, current_price, trend)
+            stop_loss, take_profit, trailing_stop = self.risk_management.calculate_dynamic_risk_management(df, current_price, trend)
 
             print(f"Trend: {trend.upper()}")
-            print(f"Stop Loss: {stop_loss:.2f}")
-            print(f"Take Profit: {take_profit:.2f}")
+            print(f"Trailing Stop: {trailing_stop:.2f}")  # Print the trailing stop
+            print(f"Order side: {side}")
 
             side = 'Buy' if trend == 'long' else 'Sell'
             print(f"Order side: {side}")
@@ -96,8 +96,7 @@ class TradingBot:
                 qty=self.quantity,
                 current_price=current_price,
                 leverage=self.leverage,
-                # stop_loss=stop_loss,
-                take_profit=take_profit
+                trailing_stop=trailing_stop
             )
 
             if order_result:
