@@ -68,7 +68,7 @@ class BybitDemoSession:
         except Exception as e:
             print(f"Ошибка при установке плеча: {e}")
 
-    def place_order(self, symbol, side, qty, current_price, leverage, stop_loss=None, trailing_stop=None):
+    def place_order(self, symbol, side, qty, current_price, leverage, stop_loss=None, take_profit=None):
         try:
             # Set leverage before placing an order
             self.set_leverage(symbol, leverage=leverage)
@@ -84,19 +84,44 @@ class BybitDemoSession:
             else:  # one_way
                 position_idx = 0
 
+            # Adjust price based on the side of the orderare you st
+            if side.lower() == 'buy':
+                # price = current_price * 0.9999  # 0.01% below the current market price
+                price = current_price * 0.9997  # 0.03% below the current market price
+                if stop_loss and stop_loss >= price:
+                    print("Stop-loss is higher than or equal to the limit price for a Buy order. Adjusting stop-loss...")
+                    # stop_loss = price * 0.995  # Ensure stop-loss is slightly below the limit price
+            else:
+                # price = current_price * 1.0001  # 0.01% above the current market price
+                price = current_price * 1.0003  # 0.03% above the current market price
+                if stop_loss and stop_loss <= price:
+                    print("Stop-loss is lower than or equal to the limit price for a Sell order. Adjusting stop-loss...")
+                    # stop_loss = price * 1.005  # Ensure stop-loss is slightly above the limit price
+
             order_params = {
                 "category": "linear",
                 "symbol": symbol,
                 "side": side,
-                "orderType": "Market",
+                "orderType": "Limit",
                 "qty": str(qty),  # Convert quantity to string
-                # "price": str(price),  # Ensure price is sent as a string
+                "price": str(price),  # Ensure price is sent as a string
                 "positionIdx": position_idx,  # Use the positionIdx determined above
             }
 
-            # Adding trailing stop logic
-            if trailing_stop:
-                order_params["trailingStop"] = str(trailing_stop)
+                        # Prepare order parameters for a market order
+            # order_params = {
+            #     "category": "linear",
+            #     "symbol": symbol,
+            #     "side": side,
+            #     "orderType": "Market",  # Changed to Market order
+            #     "qty": str(qty),  # Convert quantity to string
+            #     "positionIdx": position_idx,  # Use the positionIdx determined above
+            # }
+
+            if stop_loss:
+                order_params["stopLoss"] = str(stop_loss)
+            if take_profit:
+                order_params["takeProfit"] = str(take_profit)
 
             response = self.send_request("POST", endpoint, order_params)
             if response['retCode'] != 0:
@@ -106,7 +131,6 @@ class BybitDemoSession:
         except Exception as e:
             print(f"Error placing order: {e}")
             return None
-
 
 
 
