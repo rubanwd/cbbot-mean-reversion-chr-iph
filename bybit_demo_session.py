@@ -102,9 +102,9 @@ class BybitDemoSession:
                 "category": "linear",
                 "symbol": symbol,
                 "side": side,
-                "orderType": "Market",
+                "orderType": "Limit",
                 "qty": str(qty),  # Convert quantity to string
-                # "price": str(price),  # Ensure price is sent as a string
+                "price": str(price),  # Ensure price is sent as a string
                 "positionIdx": position_idx,  # Use the positionIdx determined above
             }
 
