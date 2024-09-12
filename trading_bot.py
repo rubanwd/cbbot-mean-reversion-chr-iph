@@ -37,9 +37,6 @@ class TradingBot:
         self.limit = int(os.getenv("TRADING_LIMIT", 100))
         self.leverage = int(os.getenv("LEVERAGE", 10))
 
-        # Load strategy switches
-        self.enable_mean_reversion_strategy = os.getenv("ENABLE_MEAN_REVERSION_STRATEGY", "True").lower() == "true"
-
         # Set up logging
         logging.basicConfig(filename='trading_bot.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
         
@@ -48,12 +45,12 @@ class TradingBot:
         print("--------------------")
 
         is_open_positions = self.data_fetcher.get_open_positions(self.symbol)
-        if len(is_open_positions) >= 2:
-            print("There are already two open positions. A new order will not be placed.")
-            return
-        # if is_open_positions:
-        #     print("There is already an open position. A new order will not be placed.")
+        # if len(is_open_positions) >= 2:
+        #     print("There are already two open positions. A new order will not be placed.")
         #     return
+        if is_open_positions:
+            print("There is already an open position. A new order will not be placed.")
+            return
         
 
         is_open_orders = self.data_fetcher.get_open_orders(self.symbol)

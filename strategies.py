@@ -45,3 +45,9 @@ class Strategies:
         elif rsi < self.low_rsi or current_price <= (bollinger_lower - extra_margin):
             return 'long'
         return None
+
+        # if rsi > 50:
+        #     return 'long'
+        # elif rsi < 50:
+        #     return 'short'
+        # return None
