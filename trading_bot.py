@@ -48,9 +48,13 @@ class TradingBot:
         print("--------------------")
 
         is_open_positions = self.data_fetcher.get_open_positions(self.symbol)
-        if is_open_positions:
-            print("There is already an open position. A new order will not be placed.")
+        if len(is_open_positions) >= 2:
+            print("There are already two open positions. A new order will not be placed.")
             return
+        # if is_open_positions:
+        #     print("There is already an open position. A new order will not be placed.")
+        #     return
+        
 
         is_open_orders = self.data_fetcher.get_open_orders(self.symbol)
         if is_open_orders:
