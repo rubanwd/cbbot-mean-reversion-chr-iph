@@ -77,8 +77,8 @@ class TradingBot:
                 current_time = time.time()
                 time_since_last_close = current_time - last_closed_time
                 print(f"Time since last closed position: {int(time_since_last_close)} seconds")
-                if time_since_last_close < 120:
-                    print("The last closed position was less than 2 minutes ago. A new order will not be placed.")
+                if time_since_last_close < 60:
+                    print("The last closed position was less than 1 minute ago. A new order will not be placed.")
                     return
                 
             
