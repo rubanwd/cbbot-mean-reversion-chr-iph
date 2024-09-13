@@ -110,7 +110,7 @@ class TradingBot:
 
     def run(self):
         self.job()
-        schedule.every(1).seconds.do(self.job)
+        schedule.every(2).seconds.do(self.job)
         while True:
             schedule.run_pending()
             time.sleep(1)
