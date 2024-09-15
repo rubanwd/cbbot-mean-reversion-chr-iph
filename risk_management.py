@@ -20,16 +20,21 @@ class RiskManagement:
 
     def calculate_dynamic_risk_management(self, df, current_price, trend):
         atr = self.calculate_atr(df)
-        stop_loss_distance = self.atr_multiplier * atr
+        original_stop_loss_distance = self.atr_multiplier * atr
+        stop_loss_distance = original_stop_loss_distance * 4  # Increase stop loss distance by 4 times
+
+        # Calculate take profit using the original stop loss distance
+        take_profit_distance = original_stop_loss_distance * self.risk_ratio
 
         if trend == 'long':
             stop_loss = float(current_price) - stop_loss_distance
-            take_profit = float(current_price) + (stop_loss_distance * self.risk_ratio)
+            take_profit = float(current_price) + take_profit_distance
         elif trend == 'short':
             stop_loss = float(current_price) + stop_loss_distance
-            take_profit = float(current_price) - (stop_loss_distance * self.risk_ratio)
+            take_profit = float(current_price) - take_profit_distance
         else:
             raise ValueError("Trend must be either 'long' or 'short'")
 
         return stop_loss, take_profit
+
 

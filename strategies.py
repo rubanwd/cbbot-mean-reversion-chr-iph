@@ -24,16 +24,17 @@ class Strategies:
 
         # Check for overbought (short) or oversold (long) conditions
 
-        if current_price + 300 >= bollinger_upper:
-            return 'short'
-        elif current_price - 300 <= bollinger_lower:
-            return 'long'
-        return None
-        # if rsi > self.high_rsi or current_price + 50 >= bollinger_upper:
+        # if current_price + 300 >= bollinger_upper:
         #     return 'short'
-        # elif rsi < self.low_rsi or current_price - 50 <= bollinger_lower:
+        # elif current_price - 300 <= bollinger_lower:
         #     return 'long'
         # return None
+
+        if rsi > self.high_rsi or (current_price - 50) >= bollinger_upper:
+            return 'short'
+        elif rsi < self.low_rsi or (current_price + 50) <= bollinger_lower:
+            return 'long'
+        return None
     
         # if rsi > 50:
         #     return 'long'
