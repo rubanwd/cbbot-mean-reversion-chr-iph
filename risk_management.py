@@ -21,7 +21,7 @@ class RiskManagement:
     def calculate_dynamic_risk_management(self, df, current_price, trend):
         atr = self.calculate_atr(df)
         original_stop_loss_distance = self.atr_multiplier * atr
-        stop_loss_distance = original_stop_loss_distance * 4  # Increase stop loss distance by 4 times
+        stop_loss_distance = original_stop_loss_distance * 8  # Increase stop loss distance by 4 times
 
         # Calculate take profit using the original stop loss distance
         take_profit_distance = original_stop_loss_distance * self.risk_ratio
