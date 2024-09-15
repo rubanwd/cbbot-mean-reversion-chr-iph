@@ -97,7 +97,7 @@ class TradingBot:
                 qty=self.quantity,
                 current_price=current_price,
                 leverage=self.leverage,
-                # stop_loss=stop_loss,
+                stop_loss=stop_loss,
                 take_profit=take_profit
             )
 
