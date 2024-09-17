@@ -10,6 +10,7 @@ import os
 import pandas as pd
 from bybit_demo_session import BybitDemoSession
 from helpers import Helpers  # Import the Helpers module
+from indicators import Indicators
 
 class TradingBot:
     def __init__(self):
@@ -64,10 +65,7 @@ class TradingBot:
             return
 
         df = self.strategy.prepare_dataframe(get_historical_data)
-
-        # Calculate and print indicators using helper method
-        rsi, bollinger_upper, bollinger_middle, bollinger_lower, current_price = Helpers.calculate_and_print_indicators(df, self.indicators)
-
+        
         trend = self.strategy.mean_reversion_strategy(df)
         if trend:
 
@@ -82,7 +80,7 @@ class TradingBot:
                     return
                 
             
-            stop_loss, take_profit = self.risk_management.calculate_dynamic_risk_management(df, current_price, trend)
+            stop_loss, take_profit = self.risk_management.calculate_dynamic_risk_management(df, trend)
 
             print(f"Trend: {trend.upper()}")
             print(f"Stop Loss: {stop_loss:.2f}")
@@ -90,6 +88,8 @@ class TradingBot:
 
             side = 'Buy' if trend == 'long' else 'Sell'
             print(f"Order side: {side}")
+
+            rsi, bollinger_upper, bollinger_middle, bollinger_lower, current_price = Helpers.calculate_and_print_indicators(df, self.indicators)
 
             order_result = self.data_fetcher.place_order(
                 symbol=self.symbol,

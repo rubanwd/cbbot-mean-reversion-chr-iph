@@ -1,13 +1,17 @@
 
 # risk_management.py
 
-import pandas as pd  # Add this import
+import pandas as pd
+
+from helpers import Helpers  # Add this import
+from indicators import Indicators
 
 class RiskManagement:
     def __init__(self, atr_period=14, atr_multiplier=1.5, risk_ratio=1.5):
         self.atr_period = atr_period
         self.atr_multiplier = atr_multiplier
         self.risk_ratio = risk_ratio
+        self.indicators = Indicators()
 
     def calculate_atr(self, df):
         high = df['high'].astype(float)
@@ -18,7 +22,8 @@ class RiskManagement:
         atr = df['tr'].rolling(window=self.atr_period).mean().iloc[-1]
         return atr
 
-    def calculate_dynamic_risk_management(self, df, current_price, trend):
+    def calculate_dynamic_risk_management(self, df, trend):
+        rsi, bollinger_upper, bollinger_middle, bollinger_lower, current_price = Helpers.calculate_and_print_indicators(df, self.indicators)
         atr = self.calculate_atr(df)
         original_stop_loss_distance = self.atr_multiplier * atr
         stop_loss_distance = original_stop_loss_distance * 8  # Increase stop loss distance by 4 times
