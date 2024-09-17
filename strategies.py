@@ -30,9 +30,9 @@ class Strategies:
         #     return 'long'
         # return None
 
-        if rsi > self.high_rsi or (current_price - 100) >= bollinger_upper:
+        if rsi > self.high_rsi and (current_price - 100) >= bollinger_upper:
             return 'short'
-        elif rsi < self.low_rsi or (current_price + 100) <= bollinger_lower:
+        elif rsi < self.low_rsi and (current_price + 100) <= bollinger_lower:
             return 'long'
         return None
     
