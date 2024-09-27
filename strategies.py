@@ -7,8 +7,8 @@ from indicators import Indicators
 class Strategies:
     def __init__(self):
         self.indicators = Indicators()
-        self.high_rsi = 82
-        self.low_rsi = 18
+        self.high_rsi = 70
+        self.low_rsi = 30
 
     def prepare_dataframe(self, historical_data):
         df = pd.DataFrame(historical_data)
@@ -38,9 +38,15 @@ class Strategies:
         #     return 'long'
         # return None
 
-        if rsi > self.high_rsi or (current_price - 170) >= bollinger_upper and bollinger_middle < ema_200:
+        # if rsi > self.high_rsi or (current_price - 170) >= bollinger_upper and bollinger_middle < ema_200:
+        #     return 'short'
+        # elif rsi < self.low_rsi or (current_price + 170) <= bollinger_lower and bollinger_middle > ema_200:
+        #     return 'long'
+        # return None
+    
+        if rsi > self.high_rsi or current_price >= bollinger_upper and bollinger_middle < ema_200:
             return 'short'
-        elif rsi < self.low_rsi or (current_price + 170) <= bollinger_lower and bollinger_middle > ema_200:
+        elif rsi < self.low_rsi or current_price <= bollinger_lower and bollinger_middle > ema_200:
             return 'long'
         return None
     
