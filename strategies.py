@@ -18,7 +18,7 @@ class Strategies:
         return df
 
     def mean_reversion_strategy(self, df):
-        rsi, bollinger_upper, bollinger_middle, bollinger_lower, current_price = Helpers.calculate_and_print_indicators(df, self.indicators)
+        rsi, bollinger_upper, bollinger_middle, bollinger_lower, current_price, ema_200 = Helpers.calculate_and_print_indicators(df, self.indicators)
 
         # Print the indicator values
         print(f"RSI: {rsi:.2f}")
@@ -26,6 +26,9 @@ class Strategies:
         print(f"Bollinger Middle: {bollinger_middle:.2f}")
         print(f"Bollinger Lower: {bollinger_lower:.2f}")
         print(f"Current Price: {current_price:.2f}")
+        print(f"EMA 200: {ema_200:.2f}")
+
+
 
         # Check for overbought (short) or oversold (long) conditions
 
@@ -35,9 +38,9 @@ class Strategies:
         #     return 'long'
         # return None
 
-        if rsi > self.high_rsi or (current_price - 170) >= bollinger_upper:
+        if bollinger_middle < ema_200 and rsi > self.high_rsi or (current_price - 170) >= bollinger_upper:
             return 'short'
-        elif rsi < self.low_rsi or (current_price + 170) <= bollinger_lower:
+        elif bollinger_middle > ema_200 and rsi < self.low_rsi or (current_price + 170) <= bollinger_lower:
             return 'long'
         return None
     

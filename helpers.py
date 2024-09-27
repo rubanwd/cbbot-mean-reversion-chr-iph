@@ -9,6 +9,7 @@ class Helpers:
         df['EMA_9'] = indicators.calculate_ema(df, 9)
         df['RSI'] = indicators.calculate_rsi(df, 14)
         df['Bollinger_upper'], df['Bollinger_middle'], df['Bollinger_lower'] = indicators.calculate_bollinger_bands(df)
+        df['EMA_200'] = indicators.calculate_ema(df, 200)
 
         # Get the latest indicator values
         rsi = df['RSI'].iloc[-1]
@@ -16,9 +17,10 @@ class Helpers:
         bollinger_middle = df['Bollinger_middle'].iloc[-1]
         bollinger_lower = df['Bollinger_lower'].iloc[-1]
         current_price = df['close'].iloc[-1]
+        ema_200 = df['EMA_200'].iloc[-1]
 
         # Return the calculated indicators and price
-        return rsi, bollinger_upper, bollinger_middle, bollinger_lower, current_price
+        return rsi, bollinger_upper, bollinger_middle, bollinger_lower, current_price, ema_200
 
     # @staticmethod
     # def check_last_closed_position(data_fetcher, symbol):
