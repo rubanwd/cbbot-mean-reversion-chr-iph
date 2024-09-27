@@ -38,9 +38,9 @@ class Strategies:
         #     return 'long'
         # return None
 
-        if bollinger_middle < ema_200 and rsi > self.high_rsi or (current_price - 170) >= bollinger_upper:
+        if rsi > self.high_rsi or (current_price - 170) >= bollinger_upper and bollinger_middle < ema_200:
             return 'short'
-        elif bollinger_middle > ema_200 and rsi < self.low_rsi or (current_price + 170) <= bollinger_lower:
+        elif rsi < self.low_rsi or (current_price + 170) <= bollinger_lower and bollinger_middle > ema_200:
             return 'long'
         return None
     
