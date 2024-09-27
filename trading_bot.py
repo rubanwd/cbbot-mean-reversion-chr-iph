@@ -86,7 +86,7 @@ class TradingBot:
             side = 'Buy' if trend == 'long' else 'Sell'
             print(f"Order side: {side}")
 
-            rsi, bollinger_upper, bollinger_middle, bollinger_lower, current_price = Helpers.calculate_and_print_indicators(df, self.indicators)
+            rsi, bollinger_upper, bollinger_middle, bollinger_lower, current_price, ema_200 = Helpers.calculate_and_print_indicators(df, self.indicators)
 
             order_result = self.data_fetcher.place_order(
                 symbol=self.symbol,

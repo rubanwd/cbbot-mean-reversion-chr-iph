@@ -57,7 +57,7 @@ class RiskManagement:
             tuple: (stop_loss, take_profit)
         """
         # Calculate indicators
-        rsi, bollinger_upper, bollinger_middle, bollinger_lower, current_price = Helpers.calculate_and_print_indicators(df, self.indicators)
+        rsi, bollinger_upper, bollinger_middle, bollinger_lower, current_price, ema_200  = Helpers.calculate_and_print_indicators(df, self.indicators)
         
         # Calculate ATR for take profit
         atr = self.calculate_atr(df)
